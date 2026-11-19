@@ -13,7 +13,7 @@ import cv2
 from PIL import Image
 import torch
 from torchvision import transforms
-import gradio as gr
+import gradio as gr  # type: ignore[import-untyped]
 
 # Hugging Face ZeroGPU decorator (graceful no-op when running locally without `spaces`)
 try:
@@ -499,4 +499,4 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation — PredictRx") as demo:
             )
 
 if __name__ == "__main__":
-    demo.launch()
+    demo.launch(ssr_mode=False)
