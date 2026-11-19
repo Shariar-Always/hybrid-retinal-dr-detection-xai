@@ -9,7 +9,7 @@ python_version: '3.12'
 app_file: app.py
 pinned: false
 license: mit
-short_description: Hybrid CNN-CBAM + Dual Vector DB RAG for Diabetic Retinopathy
+short_description: Hybrid CNN-CBAM & Dual Vector DB RAG for Retinal DR AI
 ---
 
 <h1 align="center">👁️ Hybrid Explainable AI Framework for Automated Diabetic Retinopathy Detection and Severity Assessment from Retinal Fundus Images</h1>
