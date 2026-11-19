@@ -15,6 +15,15 @@ import torch
 from torchvision import transforms
 import gradio as gr
 
+# Hugging Face ZeroGPU decorator (graceful no-op when running locally without `spaces`)
+try:
+    import spaces
+except ImportError:
+    class spaces:  # type: ignore
+        @staticmethod
+        def GPU(fn):
+            return fn
+
 ROOT_DIR = Path(__file__).resolve().parent
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
@@ -111,6 +120,7 @@ def validate_retinal_fundus(image: Image.Image):
 
 
 # ----------------- CORE SCREENING & RAG HANDLER -----------------
+@spaces.GPU
 def run_dr_screening(
     fundus_img,
     use_ben_graham,
@@ -149,13 +159,15 @@ def run_dr_screening(
 
     backbone_key = BACKBONE_MAP.get(backbone_label, "efficientnet_b0")
     model, model_loaded = get_model(backbone_key)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
 
     processed = apply_ben_graham_preprocessing(image, img_size=224) if use_ben_graham else image.resize((224, 224))
-    input_tensor = INFERENCE_TRANSFORM(processed).unsqueeze(0)
+    input_tensor = INFERENCE_TRANSFORM(processed).unsqueeze(0).to(device)
 
     with torch.no_grad():
         outputs, emb_256d = model.forward_with_embedding(input_tensor)
-        probs = torch.softmax(outputs, dim=1).squeeze().tolist()
+        probs = torch.softmax(outputs, dim=1).squeeze().cpu().tolist()
         grade_idx = int(torch.argmax(outputs, dim=1).item())
         confidence = probs[grade_idx] * 100.0
         emb_np = emb_256d.squeeze(0).cpu().numpy()
