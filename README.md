@@ -1,3 +1,17 @@
+---
+title: RetinaRAG Diabetic Retinopathy XAI
+emoji: 👁️
+colorFrom: gray
+colorTo: blue
+sdk: gradio
+sdk_version: 6.32.0
+python_version: '3.12'
+app_file: app.py
+pinned: false
+license: mit
+short_description: Hybrid CNN-CBAM + Dual Vector DB RAG for Diabetic Retinopathy
+---
+
 <h1 align="center">👁️ Hybrid Explainable AI Framework for Automated Diabetic Retinopathy Detection and Severity Assessment from Retinal Fundus Images</h1>
 
 <p align="center">
