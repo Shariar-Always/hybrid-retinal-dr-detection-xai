@@ -1,0 +1,513 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap');
+
+/* ==========================================================================
+   SMOOTH DARK SILVER / GRAPHITE CLINICAL UI
+   Natural sans-serif typography (DM Sans), matte brushed silver surfaces
+   ========================================================================== */
+
+html, body, [class*="css"], * {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
+.stApp {
+    background-color: #141517;
+    color: #eceef2;
+}
+
+.block-container {
+    padding-top: 2.8rem !important;
+    padding-bottom: 2.5rem !important;
+    max-width: 1300px !important;
+    margin: 0 auto !important;
+}
+
+/* Subtle Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #141517;
+}
+::-webkit-scrollbar-thumb {
+    background: #2e3138;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #424650;
+}
+
+/* Sidebar — Smooth Dark Silver */
+section[data-testid="stSidebar"] {
+    background-color: #18191c !important;
+    border-right: 1px solid #2a2d34 !important;
+}
+
+section[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] * {
+    color: #dfe2e8;
+}
+
+.sidebar-section {
+    background-color: #1e2024;
+    border: 1px solid #2d3037;
+    border-radius: 10px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.sidebar-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #9ca1ac;
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+.sidebar-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #f2f4f8;
+    margin-bottom: 0.2rem;
+}
+
+.sidebar-text {
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: #a1a6b0;
+    margin: 0;
+}
+
+/* Top Masthead — Smooth Brushed Dark Silver */
+.workstation-header {
+    background: linear-gradient(180deg, #1f2126 0%, #1a1c20 100%);
+    border: 1px solid #2e3138;
+    border-radius: 12px;
+    padding: 1.2rem 1.45rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.workstation-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.95rem;
+}
+
+.brand-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #262930;
+    border: 1px solid #383c46;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cfd5e2;
+    flex-shrink: 0;
+}
+
+.workstation-eyebrow {
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: #9ca1ac;
+    margin-bottom: 0.15rem;
+}
+
+.workstation-title {
+    font-size: 1.38rem !important;
+    font-weight: 700 !important;
+    color: #f3f5f8 !important;
+    letter-spacing: -0.015em;
+    margin: 0 !important;
+    line-height: 1.25 !important;
+}
+
+.workstation-subtitle {
+    font-size: 0.84rem;
+    color: #a1a6b0;
+    margin-top: 0.2rem;
+}
+
+.workstation-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.status-pill {
+    font-size: 0.76rem;
+    font-weight: 500;
+    color: #d4d8e0;
+    background-color: #25282e;
+    border: 1px solid #353942;
+    padding: 0.3rem 0.72rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #34d399;
+    display: inline-block;
+}
+
+/* Compact KPI Strip */
+.kpi-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.15rem;
+}
+
+@media (max-width: 900px) {
+    .kpi-strip {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.kpi-box {
+    background-color: #1c1e22;
+    border: 1px solid #2d3037;
+    border-radius: 10px;
+    padding: 0.8rem 1.05rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.kpi-box-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #9ca1ac;
+    margin-bottom: 0.3rem;
+}
+
+.kpi-box-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.kpi-box-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f2f4f8;
+}
+
+.kpi-box-sub {
+    font-size: 0.74rem;
+    color: #7c818d;
+}
+
+/* Native Streamlit Bordered Containers (Step Panels) */
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background-color: #1c1e22 !important;
+    border: 1px solid #2d3037 !important;
+    border-radius: 10px !important;
+    padding: 1rem 1.15rem !important;
+    margin-bottom: 0.85rem !important;
+}
+
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.65rem;
+    margin-bottom: 0.8rem;
+    border-bottom: 1px solid #2b2e35;
+}
+
+.panel-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.step-index {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: #e2e6ee;
+    background-color: #2a2d35;
+    border: 1px solid #3c404b;
+    padding: 0.14rem 0.5rem;
+    border-radius: 6px;
+}
+
+.panel-title {
+    font-size: 0.94rem !important;
+    font-weight: 600 !important;
+    color: #f2f4f8 !important;
+    margin: 0 !important;
+}
+
+/* Report & Sub Cards */
+.report-card {
+    background-color: #1c1e22;
+    border: 1px solid #2d3037;
+    border-radius: 10px;
+    padding: 1.15rem 1.3rem;
+    margin-top: 0.75rem;
+}
+
+.sub-card {
+    background-color: #22252a;
+    border: 1px solid #30343c;
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+}
+
+/* Clean Pill Badges */
+.xai-badge {
+    background-color: #262930 !important;
+    color: #d4d8e0 !important;
+    border: 1px solid #383c46 !important;
+    padding: 0.18rem 0.55rem !important;
+    border-radius: 6px !important;
+    font-size: 0.74rem !important;
+    font-weight: 500 !important;
+}
+
+/* Buttons — Smooth Silver / Slate SaaS Style */
+.stButton > button[data-testid="stBaseButton-primary"] {
+    background-color: #3b63f3 !important;
+    color: #ffffff !important;
+    border: 1px solid #3256d8 !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 0.88rem !important;
+    height: 40px !important;
+    box-shadow: none !important;
+    transition: background-color 0.15s ease !important;
+}
+
+.stButton > button[data-testid="stBaseButton-primary"]:hover {
+    background-color: #2f54dc !important;
+}
+
+.stButton > button[data-testid="stBaseButton-secondary"] {
+    background-color: #262930 !important;
+    color: #e5e8ee !important;
+    border: 1px solid #3a3e48 !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    font-size: 0.86rem !important;
+    height: 40px !important;
+    transition: background-color 0.15s ease !important;
+}
+
+.stButton > button[data-testid="stBaseButton-secondary"]:hover {
+    background-color: #31353e !important;
+}
+
+div[data-testid="stDownloadButton"] > button {
+    background-color: #252830 !important;
+    color: #f2f4f8 !important;
+    border: 1px solid #3e4350 !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.88rem !important;
+    height: 42px !important;
+    width: 100% !important;
+}
+
+div[data-testid="stDownloadButton"] > button:hover {
+    background-color: #30343e !important;
+    border-color: #525868 !important;
+}
+
+/* File Uploader */
+[data-testid="stFileUploader"] {
+    background-color: #22252a !important;
+    border: 1px dashed #3d424d !important;
+    border-radius: 8px !important;
+    padding: 0.85rem !important;
+}
+
+[data-testid="stFileUploader"]:hover {
+    border-color: #6c7384 !important;
+}
+
+[data-testid="stFileUploader"] section {
+    background: transparent !important;
+    padding: 0 !important;
+}
+
+[data-testid="stFileUploader"] section > div {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    gap: 0.4rem !important;
+}
+
+/* Form Inputs */
+div[data-baseweb="input"],
+div[data-baseweb="textarea"],
+div[data-baseweb="select"] > div {
+    border: 1px solid #343841 !important;
+    border-radius: 7px !important;
+    background-color: #22252a !important;
+}
+
+div[data-baseweb="input"]:focus-within,
+div[data-baseweb="textarea"]:focus-within,
+div[data-baseweb="select"] > div:focus-within {
+    border-color: #6b7280 !important;
+    box-shadow: 0 0 0 1px #6b7280 !important;
+}
+
+/* Tabs */
+button[data-baseweb="tab"] {
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+    color: #9ca1ac !important;
+    padding-bottom: 0.6rem !important;
+}
+
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: #f3f5f8 !important;
+    font-weight: 600 !important;
+}
+
+/* Tables */
+.history-table-container {
+    background-color: #1c1e22 !important;
+    border: 1px solid #2d3037 !important;
+    border-radius: 10px !important;
+    padding: 0.5rem 0.75rem !important;
+    margin-top: 0.75rem !important;
+    overflow-x: auto !important;
+}
+
+.history-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    font-size: 0.84rem !important;
+    text-align: left !important;
+    color: #e5e8ee !important;
+}
+
+.history-table th {
+    padding: 0.65rem 0.75rem !important;
+    font-weight: 600 !important;
+    color: #9ca1ac !important;
+    font-size: 0.76rem !important;
+    border-bottom: 1px solid #2d3037 !important;
+}
+
+.history-table td {
+    padding: 0.7rem 0.75rem !important;
+    border-bottom: 1px solid #282b31 !important;
+    vertical-align: middle !important;
+}
+
+.history-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+.history-badge {
+    display: inline-block !important;
+    padding: 0.18rem 0.55rem !important;
+    border-radius: 5px !important;
+    font-weight: 500 !important;
+    font-size: 0.76rem !important;
+}
+
+.history-badge-grade0 {
+    background-color: rgba(52, 211, 153, 0.12) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(52, 211, 153, 0.28) !important;
+}
+.history-badge-grade1 {
+    background-color: rgba(96, 165, 250, 0.12) !important;
+    color: #60a5fa !important;
+    border: 1px solid rgba(96, 165, 250, 0.28) !important;
+}
+.history-badge-grade2 {
+    background-color: rgba(251, 191, 36, 0.12) !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(251, 191, 36, 0.28) !important;
+}
+.history-badge-grade3 {
+    background-color: rgba(251, 146, 60, 0.12) !important;
+    color: #fb923c !important;
+    border: 1px solid rgba(251, 146, 60, 0.28) !important;
+}
+.history-badge-grade4 {
+    background-color: rgba(248, 113, 113, 0.12) !important;
+    color: #f87171 !important;
+    border: 1px solid rgba(248, 113, 113, 0.28) !important;
+}
+
+/* Workstation Empty State */
+.empty-workstation {
+    background-color: #1c1e22;
+    border: 1px solid #2d3037;
+    border-radius: 10px;
+    padding: 1.75rem 1.6rem;
+}
+
+.spec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+    .spec-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.spec-item {
+    background-color: #22252a;
+    border: 1px solid #30343c;
+    border-radius: 8px;
+    padding: 0.9rem 1rem;
+}
+
+.spec-item-tag {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #b4bac6;
+    margin-bottom: 0.25rem;
+}
+
+.spec-item h5 {
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    color: #f2f4f8 !important;
+    margin: 0 0 0.25rem 0 !important;
+}
+
+.spec-item p {
+    font-size: 0.8rem;
+    color: #9ca1ac;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Footer */
+.dashboard-footer {
+    border-top: 1px solid #2a2d34;
+    padding-top: 1rem;
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.78rem;
+    color: #828794;
+}

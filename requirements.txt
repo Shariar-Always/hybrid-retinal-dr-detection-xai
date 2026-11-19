@@ -1,0 +1,13 @@
+torch
+torchvision
+opencv-python-headless
+matplotlib
+seaborn
+pandas
+numpy
+scikit-learn
+streamlit
+faiss-cpu
+jupyter
+reportlab
+starlette<1.0.0
