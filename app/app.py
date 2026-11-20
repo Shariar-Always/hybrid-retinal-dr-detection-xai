@@ -557,6 +557,90 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+# ----------------- VECTOR EVIDENCE HTML WIDGET -----------------
+def build_vector_evidence_html(similar_cases: List[Dict], retrieved_chunks: List[Dict]) -> str:
+    """
+    Renders a crisp, 100% vector HTML/CSS evidence card for the Vector DB Similarity
+    & RAG Profile, guaranteeing razor-sharp typography and zero blurriness on all screens.
+    """
+    cases_rows = ""
+    for c in similar_cases[:3]:
+        sim = c.get("similarity_pct", 0.0)
+        is_match = c.get("grade_match", False)
+        bar_color = "#10b981" if is_match else "#94a3b8"
+        match_tag = (
+            '<span style="background:rgba(16,185,129,0.15); color:#34d399; font-size:0.68rem; '
+            'padding:2px 6px; border-radius:4px; font-weight:600; border:1px solid rgba(16,185,129,0.28); margin-left:6px;">'
+            'Match</span>'
+            if is_match
+            else ""
+        )
+        cases_rows += f"""
+        <div style="margin-bottom: 0.65rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.83rem; margin-bottom:4px;">
+                <span>
+                    <strong style="color:#f3f5f8; font-family:monospace; font-size:0.84rem;">{c.get('case_id', 'REF')}</strong>
+                    <span style="color:#9ca3af; font-size:0.80rem; margin-left:5px;">• {c.get('grade_name', 'DR')}</span>
+                    {match_tag}
+                </span>
+                <span style="color:{bar_color}; font-weight:700; font-size:0.84rem;">{sim:.1f}%</span>
+            </div>
+            <div style="background:#262930; height:7px; border-radius:4px; overflow:hidden;">
+                <div style="background:{bar_color}; width:{min(100.0, max(0.0, sim))}%; height:100%; border-radius:4px;"></div>
+            </div>
+        </div>
+        """
+
+    def _clean_doc_title(doc_id: str, cat: str) -> str:
+        return (
+            cat.replace("Medication Risk Safeguard", "Medication Safeguard")
+            .replace("Cardiovascular & Systemic Risk", "CV & Systemic Risk")
+            .replace("Clinical Practice Guidelines", "Clinical Practice Guidelines")
+        )
+
+    chunks_rows = ""
+    for d in retrieved_chunks[:3]:
+        score = d.get("relevance_score", 0.0) * 100.0
+        doc_id = d.get("doc_id", "REF")
+        clean_title = _clean_doc_title(doc_id, d.get("category", "Clinical Evidence"))
+        chunks_rows += f"""
+        <div style="margin-bottom: 0.65rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.83rem; margin-bottom:4px;">
+                <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:85%;">
+                    <span style="background:#1e293b; color:#60a5fa; border:1px solid rgba(96,165,250,0.3); font-size:0.72rem; padding:2px 6px; border-radius:4px; font-weight:700; font-family:monospace;">[{doc_id}]</span>
+                    <span style="color:#e2e8f0; font-weight:500; margin-left:6px; font-size:0.82rem;">{clean_title}</span>
+                </span>
+                <span style="color:#60a5fa; font-weight:700; font-size:0.84rem;">{score:.0f}%</span>
+            </div>
+            <div style="background:#262930; height:7px; border-radius:4px; overflow:hidden;">
+                <div style="background:#3b82f6; width:{min(100.0, max(0.0, score))}%; height:100%; border-radius:4px;"></div>
+            </div>
+        </div>
+        """
+
+    return f"""
+    <div style="background:#181a1e; border:1px solid #2d3037; border-radius:10px; padding:1.1rem 1.25rem; min-height:100%; display:flex; flex-direction:column; justify-content:space-between; box-sizing:border-box;">
+        <div style="margin-bottom: 1rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; border-bottom:1px solid #282b31; padding-bottom:0.45rem;">
+                <span style="font-size:0.85rem; font-weight:700; color:#f8fafc; letter-spacing:0.01em;">
+                    Visual Vector DB: Top-3 Nearest Cases
+                </span>
+                <span style="font-size:0.72rem; color:#94a3b8; font-weight:500;">256-D L2 Embedding</span>
+            </div>
+            {cases_rows}
+        </div>
+        <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; border-bottom:1px solid #282b31; padding-bottom:0.45rem;">
+                <span style="font-size:0.85rem; font-weight:700; color:#f8fafc; letter-spacing:0.01em;">
+                    Clinical Guideline Vector DB: Top Chunks
+                </span>
+                <span style="font-size:0.72rem; color:#94a3b8; font-weight:500;">ICDR &amp; PredictRx</span>
+            </div>
+            {chunks_rows}
+        </div>
+    </div>
+    """
+
 # ----------------- TABS -----------------
 tab_diag, tab_kg, tab_perf = st.tabs([
     "Clinical Screening & RAG Triage",
@@ -912,9 +996,15 @@ with tab_diag:
                 )
                 img_c1, img_c2 = st.columns(2)
                 with img_c1:
-                    st_image_compatible(active["display_image"].resize((520, 520)), caption="Input Retinal Fundus Scan")
+                    st_image_compatible(active["display_image"], caption="Input Retinal Fundus Scan")
                 with img_c2:
-                    st_image_compatible(rag_evidence_img, caption="Vector DB Similarity & RAG Evidence Profile")
+                    st.markdown(
+                        clean_html(build_vector_evidence_html(similar_cases, rag_result["retrieved_chunks"])),
+                        unsafe_allow_html=True,
+                    )
+
+                with st.expander("View Matplotlib Publication Figure (Exportable)", expanded=False):
+                    st_image_compatible(rag_evidence_img, caption="Vector DB Similarity & RAG Evidence Profile (High-DPI Matplotlib)")
 
             # 2. Severity, RAG Explanation & 5-Class Probabilities Card
             prob_bars_html = ""
