@@ -622,50 +622,60 @@ def render_rag_visual_evidence_card(
 ) -> PILImage.Image:
     """
     Renders a high-resolution visual RAG Evidence & Vector DB Similarity chart
-    as a PIL Image (224x224 or higher) so both the Streamlit dashboard and the
-    ReportLab PDF report display a crisp visual diagram of the Vector DB retrieval!
+    as a PIL Image (~1000px wide, high DPI) so both the Streamlit dashboard and the
+    ReportLab PDF report display a razor-sharp, crystal-clear visual diagram.
     """
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(4.4, 4.4), dpi=110, facecolor="#1c1e22")
+    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(5.8, 5.0), dpi=180, facecolor="#1c1e22")
 
     # Top subplot: Visual Vector DB Nearest Reference Cases
     ax1.set_facecolor("#1c1e22")
-    case_labels = [f"{c['case_id']}\n({c['grade_name']})" for c in reversed(similar_cases)]
+    case_labels = [f"{c['case_id']}\n{c['grade_name']}" for c in reversed(similar_cases)]
     case_sims = [c["similarity_pct"] for c in reversed(similar_cases)]
-    bar_colors = ["#34d399" if c["grade_match"] else "#9ca3af" for c in reversed(similar_cases)]
+    bar_colors = ["#10b981" if c["grade_match"] else "#94a3b8" for c in reversed(similar_cases)]
 
-    bars1 = ax1.barh(case_labels, case_sims, color=bar_colors, height=0.5)
-    ax1.set_xlim(0, 112)
-    ax1.set_title("Visual Vector DB: Top-3 Matched Reference Cases", color="#f2f4f8", fontsize=8.8, fontweight="bold", pad=6)
-    ax1.tick_params(colors="#d4d8e0", labelsize=7.5)
+    bars1 = ax1.barh(case_labels, case_sims, color=bar_colors, height=0.48)
+    ax1.set_xlim(0, 115)
+    ax1.set_title("Visual Vector DB: Top-3 Matched Reference Cases", color="#f8fafc", fontsize=10.5, fontweight="bold", pad=8)
+    ax1.tick_params(colors="#e2e8f0", labelsize=8.8)
+    ax1.grid(axis="x", color="#2d313a", linestyle="--", linewidth=0.6, alpha=0.7)
     for spine in ["top", "right"]:
         ax1.spines[spine].set_visible(False)
-    ax1.spines["left"].set_color("#3a3e48")
-    ax1.spines["bottom"].set_color("#3a3e48")
+    ax1.spines["left"].set_color("#3e4451")
+    ax1.spines["bottom"].set_color("#3e4451")
     for b in bars1:
         w = b.get_width()
-        ax1.text(w + 1.5, b.get_y() + b.get_height() / 2, f"{w:.1f}%", va="center", color="#f2f4f8", fontsize=7.5, fontweight="bold")
+        ax1.text(w + 2.0, b.get_y() + b.get_height() / 2, f"{w:.1f}%", va="center", color="#ffffff", fontsize=9.0, fontweight="bold")
 
     # Bottom subplot: Clinical Guideline RAG Vector Relevance
     ax2.set_facecolor("#1c1e22")
     top_docs = retrieved_chunks[:3]
-    doc_labels = [f"[{d['doc_id']}]\n{d['category'][:18]}" for d in reversed(top_docs)]
+
+    def _clean_cat(cat: str) -> str:
+        return (
+            cat.replace("Medication Risk Safeguard", "Medication Safeguard")
+            .replace("Cardiovascular & Systemic Risk", "CV & Systemic Risk")
+            .replace("Clinical Practice Guidelines", "Clinical Guidelines")
+        )
+
+    doc_labels = [f"[{d['doc_id']}]\n{_clean_cat(d['category'])}" for d in reversed(top_docs)]
     doc_scores = [d["relevance_score"] * 100.0 for d in reversed(top_docs)]
-    bars2 = ax2.barh(doc_labels, doc_scores, color="#6b8afd", height=0.5)
-    ax2.set_xlim(0, 112)
-    ax2.set_xlabel("Vector Cosine Relevance (%)", color="#9ca1ac", fontsize=7.5)
-    ax2.set_title("Clinical Guideline Vector DB: Top Evidence Chunks", color="#f2f4f8", fontsize=8.8, fontweight="bold", pad=6)
-    ax2.tick_params(colors="#d4d8e0", labelsize=7.2)
+    bars2 = ax2.barh(doc_labels, doc_scores, color="#3b82f6", height=0.48)
+    ax2.set_xlim(0, 115)
+    ax2.set_xlabel("Vector Cosine Relevance (%)", color="#cbd5e1", fontsize=9.0, fontweight="bold")
+    ax2.set_title("Clinical Guideline Vector DB: Top Evidence Chunks", color="#f8fafc", fontsize=10.5, fontweight="bold", pad=8)
+    ax2.tick_params(colors="#e2e8f0", labelsize=8.6)
+    ax2.grid(axis="x", color="#2d313a", linestyle="--", linewidth=0.6, alpha=0.7)
     for spine in ["top", "right"]:
         ax2.spines[spine].set_visible(False)
-    ax2.spines["left"].set_color("#3a3e48")
-    ax2.spines["bottom"].set_color("#3a3e48")
+    ax2.spines["left"].set_color("#3e4451")
+    ax2.spines["bottom"].set_color("#3e4451")
     for b in bars2:
         w = b.get_width()
-        ax2.text(w + 1.5, b.get_y() + b.get_height() / 2, f"{w:.0f}%", va="center", color="#e5e8ee", fontsize=7.5, fontweight="bold")
+        ax2.text(w + 2.0, b.get_y() + b.get_height() / 2, f"{w:.0f}%", va="center", color="#ffffff", fontsize=9.0, fontweight="bold")
 
     plt.tight_layout()
     buf = io.BytesIO()
-    fig.savefig(buf, format="png", facecolor=fig.get_facecolor(), bbox_inches="tight")
+    fig.savefig(buf, format="png", facecolor=fig.get_facecolor(), bbox_inches="tight", dpi=180)
     plt.close(fig)
     buf.seek(0)
-    return PILImage.open(buf).convert("RGB").resize((240, 240))
+    return PILImage.open(buf).convert("RGB")

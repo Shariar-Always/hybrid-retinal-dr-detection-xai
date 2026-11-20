@@ -912,7 +912,7 @@ with tab_diag:
                 )
                 img_c1, img_c2 = st.columns(2)
                 with img_c1:
-                    st_image_compatible(active["display_image"].resize((240, 240)), caption="Input Retinal Fundus Scan")
+                    st_image_compatible(active["display_image"].resize((520, 520)), caption="Input Retinal Fundus Scan")
                 with img_c2:
                     st_image_compatible(rag_evidence_img, caption="Vector DB Similarity & RAG Evidence Profile")
 
