@@ -3,10 +3,10 @@ title: RetinaRAG Diabetic Retinopathy XAI
 emoji: 👁️
 colorFrom: gray
 colorTo: blue
-sdk: streamlit
-sdk_version: 1.42.0
+sdk: gradio
+sdk_version: 6.32.0
 python_version: '3.12'
-app_file: app/app.py
+app_file: app.py
 pinned: false
 license: mit
 short_description: Hybrid CNN-CBAM & Dual Vector DB RAG for Retinal DR AI
