@@ -1162,6 +1162,14 @@ with tab_diag:
             st.markdown(clean_html(render_knowledge_graph_svg(grade_idx, risk_profile)), unsafe_allow_html=True)
 
             # 7. In-Memory Clinical PDF Report Download
+            pdf_evidence_card = render_rag_visual_evidence_card(
+                similar_cases=similar_cases,
+                retrieved_chunks=rag_result["retrieved_chunks"],
+                predicted_grade=grade_idx,
+                grade_name=prediction_name,
+                light_theme=True,
+            )
+
             pdf_data = generate_pdf_report(
                 patient_name=active["patient_name"],
                 patient_id=active["patient_id"],
@@ -1172,7 +1180,7 @@ with tab_diag:
                 confidence=confidence,
                 insights=rag_result["explanation_html"],
                 original_image=active["raw_image"],
-                xai_overlay=rag_evidence_img,
+                xai_overlay=pdf_evidence_card,
                 xai_method_name="Dual Vector DB & Clinical RAG",
                 grade_idx=grade_idx,
                 eye_side=active["eye_side"],
