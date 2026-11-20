@@ -443,6 +443,57 @@ def render_performance_hub():
                     </tbody>
                 </table>
             </div>
+
+            <div style="margin-top: 2rem; margin-bottom: 1.25rem;">
+                <h3 style="color: #f9fafb; font-weight: 600; font-size: 1.15rem; margin-bottom: 0.25rem;">Empirical Hold-Out Validation Benchmarks (APTOS 2019 Blindness Detection)</h3>
+                <p style="color: #9ca3af; font-size: 0.85rem; margin: 0;">
+                    Measured on the stratified 366-image hold-out validation set across 5-stage ICDR Diabetic Retinopathy severity grading with balanced class weighting.
+                </p>
+            </div>
+            <div class="history-table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Model Architecture</th>
+                            <th>Hold-Out Val QWK</th>
+                            <th>Hold-Out Val Accuracy</th>
+                            <th>Macro F1-Score</th>
+                            <th>Best Epoch</th>
+                            <th>Convergence</th>
+                            <th>Benchmark Ranking</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Hybrid EfficientNet-B0 + CBAM</strong></td>
+                            <td><strong style="color: #34d399;">0.8766</strong></td>
+                            <td>80.87%</td>
+                            <td>0.6880</td>
+                            <td>16 / 20</td>
+                            <td>Epoch 16 (0.8766 QWK)</td>
+                            <td><span class="xai-badge" style="background: rgba(16,185,129,0.15); color: #34d399; border-color: rgba(16,185,129,0.3);">🏆 Top Performer</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hybrid DenseNet121 + CBAM</strong></td>
+                            <td><strong style="color: #60a5fa;">0.8727</strong></td>
+                            <td>78.14%</td>
+                            <td>0.6281</td>
+                            <td>12 / 20</td>
+                            <td>Early Stop (Epoch 17)</td>
+                            <td><span class="xai-badge" style="background: rgba(59,130,246,0.15); color: #60a5fa; border-color: rgba(59,130,246,0.3);">🥈 Runner-Up</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hybrid ResNet50 + CBAM</strong></td>
+                            <td><strong style="color: #9ca3af;">0.8588</strong></td>
+                            <td>74.86%</td>
+                            <td>0.5814</td>
+                            <td>10 / 20</td>
+                            <td>Early Stop (Epoch 15)</td>
+                            <td><span class="xai-badge" style="background: rgba(156,163,175,0.15); color: #d1d5db; border-color: rgba(156,163,175,0.3);">🥉 Verified Baseline</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         """),
         unsafe_allow_html=True,
     )

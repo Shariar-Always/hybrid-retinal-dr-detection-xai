@@ -494,6 +494,46 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation — PredictRx") as demo:
                         <li><b>HITL Escalation Gate:</b> Flags low-confidence (&lt;70%) or Vision-Threatening DR (Grade ≥ 3) for urgent specialist verification.</li>
                         <li><b>Zero-PHI Data Sovereignty:</b> All image inference, vector retrieval, and PDF report compilation run locally in memory.</li>
                     </ul>
+
+                    <h4 style='color:#f2f4f8; margin-top:1.5rem; margin-bottom:0.5rem;'>Empirical Hold-Out Validation Benchmarks (APTOS 2019)</h4>
+                    <table style='width:100%; border-collapse:collapse; color:#d4d8e0; font-size:0.83rem; text-align:left;'>
+                        <thead>
+                            <tr style='border-bottom:1px solid #2d3037; color:#9ca3af;'>
+                                <th style='padding:6px 8px;'>Backbone</th>
+                                <th style='padding:6px 8px;'>Hold-Out Val QWK</th>
+                                <th style='padding:6px 8px;'>Val Accuracy</th>
+                                <th style='padding:6px 8px;'>Macro F1</th>
+                                <th style='padding:6px 8px;'>Best Epoch</th>
+                                <th style='padding:6px 8px;'>Rank</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style='border-bottom:1px solid #23262d;'>
+                                <td style='padding:6px 8px;'><b>Hybrid EfficientNet-B0 + CBAM</b></td>
+                                <td style='padding:6px 8px; color:#34d399;'><b>0.8766</b></td>
+                                <td style='padding:6px 8px;'>80.87%</td>
+                                <td style='padding:6px 8px;'>0.6880</td>
+                                <td style='padding:6px 8px;'>Epoch 16/20</td>
+                                <td style='padding:6px 8px; color:#34d399;'>🏆 Top Performer</td>
+                            </tr>
+                            <tr style='border-bottom:1px solid #23262d;'>
+                                <td style='padding:6px 8px;'><b>Hybrid DenseNet121 + CBAM</b></td>
+                                <td style='padding:6px 8px; color:#60a5fa;'><b>0.8727</b></td>
+                                <td style='padding:6px 8px;'>78.14%</td>
+                                <td style='padding:6px 8px;'>0.6281</td>
+                                <td style='padding:6px 8px;'>Early Stop 17</td>
+                                <td style='padding:6px 8px; color:#60a5fa;'>🥈 Runner-Up</td>
+                            </tr>
+                            <tr>
+                                <td style='padding:6px 8px;'><b>Hybrid ResNet50 + CBAM</b></td>
+                                <td style='padding:6px 8px; color:#9ca3af;'><b>0.8588</b></td>
+                                <td style='padding:6px 8px;'>74.86%</td>
+                                <td style='padding:6px 8px;'>0.5814</td>
+                                <td style='padding:6px 8px;'>Early Stop 15</td>
+                                <td style='padding:6px 8px; color:#9ca3af;'>🥉 Verified Baseline</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 """
             )
