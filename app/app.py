@@ -69,6 +69,15 @@ base_dir = Path(__file__).resolve().parent.parent
 if str(base_dir) not in sys.path:
     sys.path.insert(0, str(base_dir))
 
+import importlib
+try:
+    import app.rag_engine
+    importlib.reload(app.rag_engine)
+    import app.knowledge_graph
+    importlib.reload(app.knowledge_graph)
+except Exception:
+    pass
+
 from src.models.hybrid_model import HybridDRPredictor
 from src.preprocess import apply_ben_graham_preprocessing
 from app.report_generator import generate_pdf_report
@@ -1162,13 +1171,16 @@ with tab_diag:
             st.markdown(clean_html(render_knowledge_graph_svg(grade_idx, risk_profile)), unsafe_allow_html=True)
 
             # 7. In-Memory Clinical PDF Report Download
-            pdf_evidence_card = render_rag_visual_evidence_card(
-                similar_cases=similar_cases,
-                retrieved_chunks=rag_result["retrieved_chunks"],
-                predicted_grade=grade_idx,
-                grade_name=prediction_name,
-                light_theme=True,
-            )
+            try:
+                pdf_evidence_card = render_rag_visual_evidence_card(
+                    similar_cases=similar_cases,
+                    retrieved_chunks=rag_result["retrieved_chunks"],
+                    predicted_grade=grade_idx,
+                    grade_name=prediction_name,
+                    light_theme=True,
+                )
+            except Exception:
+                pdf_evidence_card = rag_evidence_img
 
             pdf_data = generate_pdf_report(
                 patient_name=active["patient_name"],

@@ -620,6 +620,7 @@ def render_rag_visual_evidence_card(
     predicted_grade: int,
     grade_name: str,
     light_theme: bool = False,
+    **kwargs,
 ) -> PILImage.Image:
     """
     Renders a high-resolution visual RAG Evidence & Vector DB Similarity chart
