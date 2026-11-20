@@ -3,7 +3,7 @@
 Hugging Face Spaces Workstation Entrypoint — RetinaRAG Clinical Workstation
 Hybrid Explainable AI Framework for Automated Diabetic Retinopathy Detection,
 5-Stage ICDR Severity Assessment, Dual Vector DB RAG & PredictRx Safeguards.
-Designed with the exact dark-graphite clinical workstation UI of Streamlit.
+Designed with the exact dark-graphite clinical workstation UI and sidebar of Streamlit.
 """
 import os
 import sys
@@ -210,13 +210,20 @@ CUSTOM_CSS = """
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 
 body, .gradio-container, .gradio-container * {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
 }
 
 .gradio-container {
     background-color: #141517 !important;
-    max-width: 1400px !important;
+    max-width: 1480px !important;
     margin: 0 auto !important;
+}
+
+/* Sidebar styling */
+aside.sidebar {
+    background-color: #111215 !important;
+    border-right: 1px solid #23262d !important;
+    padding: 1.2rem 1rem !important;
 }
 
 /* Header & Panels */
@@ -292,8 +299,7 @@ body, .gradio-container, .gradio-container * {
     margin-bottom: 0.65rem;
 }
 
-/* Empty Workstation */
-.empty-box {
+.empty-workstation {
     background: #181a1e;
     border: 1px solid #23262d;
     border-radius: 12px;
@@ -338,36 +344,98 @@ def render_kpi_bar(scans=0, nodr=0, referable=0, vtdr=0) -> str:
     """
 
 
-EMPTY_STATE_HTML = """
-<div class="empty-box">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #23262d; padding-bottom:0.75rem; margin-bottom:1rem;">
-        <div>
-            <div style="font-size:0.74rem; color:#60a5fa; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">WORKSTATION IDLE • READY FOR INPUT</div>
-            <h3 style="margin:2px 0 0 0; color:#f9fafb; font-size:1.15rem; font-weight:600;">No Active Retinal Screening Report</h3>
-        </div>
-        <span class="xai-pill" style="border-color:#10b981; color:#10b981;">Engine Online</span>
+SIDEBAR_HTML = """
+<div style="padding: 4px 2px;">
+    <div style="font-size: 0.72rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px;">
+        HEALTHSPHERE AI • PREDICTRX
     </div>
-    <p style="color:#9ca3af; font-size:0.86rem; line-height:1.6; margin:0 0 1rem 0;">
-        Upload a color retinal fundus photograph on the left, optionally enter patient HbA1c and systolic blood pressure, then click <b>Run Screening &amp; RAG</b> to compute 5-stage ICDR grading, retrieve Vector DB reference cases, synthesize citation-grounded clinical guidance, and generate a verified PDF triage report.
-    </p>
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:0.75rem;">
-        <div class="sub-card">
-            <div style="font-size:0.8rem; font-weight:700; color:#f9fafb;">1. 256-D Vector Retrieval</div>
-            <div style="font-size:0.76rem; color:#9ca3af; margin-top:3px;">Matches penultimate CBAM embeddings against verified reference cases.</div>
+    <div style="font-size: 1.25rem; font-weight: 700; color: #f9fafb; margin-bottom: 2px;">
+        RetinaRAG Workstation
+    </div>
+    <div style="font-size: 0.78rem; color: #9ca3af; margin-bottom: 1.25rem;">
+        AI Builders Congress — Competition 1
+    </div>
+
+    <!-- SYSTEM ARCHITECTURE -->
+    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 8px; padding: 12px; margin-bottom: 1rem;">
+        <div style="font-size: 0.72rem; color: #9ca3af; text-transform: uppercase; font-weight: 700; margin-bottom: 5px;">
+            SYSTEM ARCHITECTURE
         </div>
-        <div class="sub-card">
-            <div style="font-size:0.8rem; font-weight:700; color:#f9fafb;">2. Grounded Clinical RAG</div>
-            <div style="font-size:0.76rem; color:#9ca3af; margin-top:3px;">Synthesizes authoritative ICDR and medication safeguard guidance.</div>
+        <div style="font-size: 0.86rem; font-weight: 600; color: #f9fafb; margin-bottom: 4px;">
+            Hybrid CNN–CBAM + Dual RAG
         </div>
-        <div class="sub-card">
-            <div style="font-size:0.8rem; font-weight:700; color:#f9fafb;">3. PredictRx Safeguards</div>
-            <div style="font-size:0.76rem; color:#9ca3af; margin-top:3px;">Automated OOD verification, VTDR flags, and Zero-PHI data sovereignty.</div>
+        <div style="font-size: 0.78rem; color: #9ca3af; line-height: 1.5;">
+            256-D retinal feature embeddings coupled with local Vector Database retrieval (10 reference prototypes &amp; 12 clinical guideline documents).
+        </div>
+    </div>
+
+    <!-- ICDR SEVERITY SCALE -->
+    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 8px; padding: 12px; margin-bottom: 1rem;">
+        <div style="font-size: 0.72rem; color: #9ca3af; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">
+            ICDR SEVERITY SCALE
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:6px;">
+            <span style="color:#e5e7eb;">Grade 0 No DR</span>
+            <span style="color:#10b981; font-weight:600;">Routine</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:6px;">
+            <span style="color:#e5e7eb;">Grade 1 Mild NPDR</span>
+            <span style="color:#38bdf8; font-weight:600;">6–12 mo</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:6px;">
+            <span style="color:#e5e7eb;">Grade 2 Moderate NPDR</span>
+            <span style="color:#f59e0b; font-weight:600;">Referable</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:6px;">
+            <span style="color:#e5e7eb;">Grade 3 Severe NPDR</span>
+            <span style="color:#f97316; font-weight:600;">Urgent VTDR</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:0.78rem;">
+            <span style="color:#e5e7eb;">Grade 4 Proliferative DR</span>
+            <span style="color:#ef4444; font-weight:600;">Immediate</span>
+        </div>
+    </div>
+
+    <!-- DOCUMENTED SAFEGUARDS -->
+    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 8px; padding: 12px;">
+        <div style="font-size: 0.72rem; color: #9ca3af; text-transform: uppercase; font-weight: 700; margin-bottom: 6px;">
+            DOCUMENTED SAFEGUARDS
+        </div>
+        <div style="font-size: 0.78rem; color: #d1d5db; line-height: 1.6;">
+            • Pre-inference Fundus OOD &amp; blur check<br>
+            • Low-confidence (&lt;70%) HITL escalation<br>
+            • Inline clinical citations ([ICDR], [ADA])<br>
+            • Zero-PHI local in-memory execution
         </div>
     </div>
 </div>
 """
 
-# Global session scan counters
+IDLE_WORKSTATION_HTML = """
+<div class="empty-workstation">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #23262d; padding-bottom:0.75rem; margin-bottom:1rem;">
+        <div>
+            <div style="font-size:0.74rem; color:#60a5fa; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">WORKSTATION IDLE • READY FOR INPUT</div>
+            <h3 style="margin:2px 0 0 0; color:#f9fafb; font-size:1.15rem; font-weight:600;">No Active Retinal Screening Report</h3>
+        </div>
+        <span class="xai-pill" style="border-color:#10b981; color:#10b981;">● Engine Online</span>
+    </div>
+    <p style="color:#9ca3af; font-size:0.86rem; line-height:1.6; margin:0 0 1.25rem 0;">
+        Upload a color retinal fundus photograph in <b>Panel 01</b> on the left, enter optional systemic risk metrics (HbA1c, blood pressure, duration) in <b>Panel 02</b>, and execute <b>Run Screening &amp; RAG</b> in <b>Panel 03</b>.
+    </p>
+    <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:0.75rem;">
+        <div class="sub-card">
+            <div style="font-size:0.74rem; color:#60a5fa; font-weight:700;">01 • Input Safeguard</div>
+            <div style="font-size:0.84rem; font-weight:600; color:#f9fafb; margin-top:2px;">Retinal Fundus OOD &amp; Focus Gate</div>
+        </div>
+        <div class="sub-card">
+            <div style="font-size:0.74rem; color:#60a5fa; font-weight:700;">02 • Predictive ML</div>
+            <div style="font-size:0.84rem; font-weight:600; color:#f9fafb; margin-top:2px;">Hybrid CNN-CBAM + 256-D Embeddings</div>
+        </div>
+    </div>
+</div>
+"""
+
 SESSION_STATS = {"scans": 0, "nodr": 0, "referable": 0, "vtdr": 0}
 
 
@@ -390,8 +458,16 @@ def run_screening_pipeline(
     gemini_key,
 ):
     if fundus_img is None:
+        err_box = """
+        <div class="panel-box" style="border-left: 4px solid #ef4444;">
+            <div style="color:#ef4444; font-weight:700; font-size:0.95rem;">Missing Input Image</div>
+            <p style="color:#d1d5db; font-size:0.86rem; margin-top:6px;">Please upload a color retinal fundus photograph in Panel 01 to execute screening.</p>
+        </div>
+        """
         return (
-            "<div style='color:#ef4444; padding:10px; background:#1e1416; border-radius:6px;'>Please upload a color retinal fundus photograph to execute screening.</div>",
+            gr.update(visible=True),   # idle_box
+            gr.update(visible=False),  # results_group
+            "",
             None,
             "",
             "",
@@ -400,6 +476,7 @@ def run_screening_pipeline(
             "",
             None,
             render_kpi_bar(SESSION_STATS["scans"], SESSION_STATS["nodr"], SESSION_STATS["referable"], SESSION_STATS["vtdr"]),
+            err_box,
         )
 
     image = fundus_img.convert("RGB")
@@ -411,7 +488,20 @@ def run_screening_pipeline(
             <p style="color:#d1d5db; font-size:0.86rem; margin-top:6px;">{ood_msg}</p>
         </div>
         """
-        return err_box, None, "", "", "", "", "", None, render_kpi_bar(SESSION_STATS["scans"], SESSION_STATS["nodr"], SESSION_STATS["referable"], SESSION_STATS["vtdr"])
+        return (
+            gr.update(visible=True),
+            gr.update(visible=False),
+            "",
+            None,
+            "",
+            "",
+            "",
+            "",
+            "",
+            None,
+            render_kpi_bar(SESSION_STATS["scans"], SESSION_STATS["nodr"], SESSION_STATS["referable"], SESSION_STATS["vtdr"]),
+            err_box,
+        )
 
     backbone_key = BACKBONE_MAP.get(backbone_label, "efficientnet_b0")
     model, model_loaded = get_model(backbone_key)
@@ -635,7 +725,10 @@ def run_screening_pipeline(
     )
 
     return (
+        gr.update(visible=False),  # hide idle_box
+        gr.update(visible=True),   # show results_group
         report_card_html,
+        image,
         evidence_card_html,
         top3_cases_html,
         guidelines_html,
@@ -643,6 +736,23 @@ def run_screening_pipeline(
         kg_svg,
         tmp_pdf.name,
         updated_kpis,
+        "",                        # clear err_box
+    )
+
+
+def reset_workstation():
+    return (
+        gr.update(visible=True),   # show idle_box
+        gr.update(visible=False),  # hide results_group
+        "",
+        None,
+        "",
+        "",
+        "",
+        "",
+        "",
+        None,
+        "",
     )
 
 
@@ -686,6 +796,10 @@ def run_standalone_qa(question, grade_label, hba1c, diabetes_years, systolic_bp,
 
 # ----------------- BUILD GRADIO INTERFACE -----------------
 with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Screening & PredictRx", css=CUSTOM_CSS) as demo:
+    # 0. Left Dedicated Workstation Sidebar (Identical to Streamlit Sidebar)
+    with gr.Sidebar():
+        gr.HTML(SIDEBAR_HTML)
+
     # 1. Top Clinical Header
     gr.HTML(f"""
     <div class="dr-header-card">
@@ -710,6 +824,9 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
 
     # 2. Top KPI Metrics Bar
     kpi_bar_html = gr.HTML(render_kpi_bar(0, 0, 0, 0))
+
+    # Error Notification Placeholder
+    err_banner = gr.HTML()
 
     # 3. Main Navigation Tabs
     with gr.Tabs():
@@ -780,45 +897,50 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
 
                         with gr.Row():
                             run_btn = gr.Button("Run Screening & RAG", variant="primary", scale=2)
-                            clear_btn = gr.ClearButton([fundus_in, p_name_in, p_id_in, p_symptoms_in], value="Reset", scale=1)
+                            clear_btn = gr.Button("Reset", scale=1)
 
                 # --- RIGHT COLUMN: CLINICAL WORKSTATION RESULTS ---
                 with gr.Column(scale=2):
-                    # Section Header
-                    gr.HTML("""
-                    <div class="panel-header">
-                        <div>
-                            <span class="step-badge">REPORT</span>
-                            <strong style="color:#f9fafb; margin-left:6px; font-size:0.95rem;">Severity Assessment &amp; Vector DB Evidence</strong>
+                    # 1. Idle Workstation State (Default view, matches Streamlit)
+                    idle_box = gr.HTML(IDLE_WORKSTATION_HTML, visible=True)
+
+                    # 2. Results Container (Hidden until user clicks Run Screening & RAG)
+                    with gr.Group(visible=False) as results_group:
+                        gr.HTML("""
+                        <div class="panel-header">
+                            <div>
+                                <span class="step-badge">REPORT</span>
+                                <strong style="color:#f9fafb; margin-left:6px; font-size:0.95rem;">Severity Assessment &amp; Vector DB Evidence</strong>
+                            </div>
+                            <span class="xai-pill">Grounded Clinical RAG Synthesizer</span>
                         </div>
-                        <span class="xai-pill">Grounded Clinical RAG Synthesizer</span>
-                    </div>
-                    """)
+                        """)
 
-                    # Dual Image & Evidence Card Row
-                    with gr.Row():
-                        input_fundus_display = gr.Image(type="pil", label="Input Retinal Fundus Scan", height=280)
-                        evidence_card_display = gr.HTML(EMPTY_STATE_HTML, label="Vector DB Similarity & RAG Evidence Profile")
+                        # Dual Image & Evidence Card Row
+                        with gr.Row():
+                            input_fundus_display = gr.Image(type="pil", label="Input Retinal Fundus Scan", height=280)
+                            evidence_card_display = gr.HTML(label="Vector DB Similarity & RAG Evidence Profile")
 
-                    # Severity & Grounded RAG Summary Card
-                    report_card_out = gr.HTML()
+                        # Severity & Grounded RAG Summary Card
+                        report_card_out = gr.HTML()
 
-                    # Top-3 Visual Cases & Guidelines
-                    with gr.Accordion("Visual Vector DB — Top-3 Matched Verified Reference Cases (256-D Embedding)", open=True):
-                        top3_cases_out = gr.HTML()
+                        # Top-3 Visual Cases
+                        with gr.Accordion("Visual Vector DB — Top-3 Matched Verified Reference Cases (256-D Embedding)", open=True):
+                            top3_cases_out = gr.HTML()
 
-                    with gr.Accordion("Clinical Guideline Vector DB — Retrieved Evidence Chunks & Citations", open=False):
-                        guidelines_out = gr.HTML()
+                        # Clinical Guidelines
+                        with gr.Accordion("Clinical Guideline Vector DB — Retrieved Evidence Chunks & Citations", open=False):
+                            guidelines_out = gr.HTML()
 
-                    # Safeguards Panel
-                    safeguards_out = gr.HTML()
+                        # Safeguards Panel
+                        safeguards_out = gr.HTML()
 
-                    # PredictRx Retinal-Systemic Knowledge Graph
-                    with gr.Accordion("PredictRx Retinal-Systemic Knowledge Graph", open=True):
-                        kg_svg_out = gr.HTML()
+                        # Knowledge Graph SVG
+                        with gr.Accordion("PredictRx Retinal-Systemic Knowledge Graph", open=True):
+                            kg_svg_out = gr.HTML()
 
-                    # Download PDF Report Button
-                    pdf_download_out = gr.File(label="Download Verified Zero-PHI Clinical DR RAG & Triage PDF Report")
+                        # PDF Download
+                        pdf_download_out = gr.File(label="Download Verified Zero-PHI Clinical DR RAG & Triage PDF Report")
 
             # Wire click handler
             run_btn.click(
@@ -829,7 +951,10 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
                     p_hba1c_in, p_years_in, p_sbp_in, p_symptoms_in, gemini_key_in,
                 ],
                 outputs=[
+                    idle_box,
+                    results_group,
                     report_card_out,
+                    input_fundus_display,
                     evidence_card_display,
                     top3_cases_out,
                     guidelines_out,
@@ -837,10 +962,27 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
                     kg_svg_out,
                     pdf_download_out,
                     kpi_bar_html,
+                    err_banner,
                 ],
             )
-            # Link input image to preview
-            fundus_in.change(lambda img: img, inputs=[fundus_in], outputs=[input_fundus_display])
+
+            clear_btn.click(
+                fn=reset_workstation,
+                inputs=[],
+                outputs=[
+                    idle_box,
+                    results_group,
+                    report_card_out,
+                    input_fundus_display,
+                    evidence_card_display,
+                    top3_cases_out,
+                    guidelines_out,
+                    safeguards_out,
+                    kg_svg_out,
+                    pdf_download_out,
+                    err_banner,
+                ],
+            )
 
         # Tab 2: Vector DB Explorer & Follow-Up Q&A
         with gr.Tab("Vector DB Explorer & Knowledge Graph"):
