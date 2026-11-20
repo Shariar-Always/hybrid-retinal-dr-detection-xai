@@ -219,13 +219,6 @@ body, .gradio-container, .gradio-container * {
     margin: 0 auto !important;
 }
 
-/* Sidebar styling */
-aside.sidebar {
-    background-color: #111215 !important;
-    border-right: 1px solid #23262d !important;
-    padding: 1.2rem 1rem !important;
-}
-
 /* Header & Panels */
 .dr-header-card {
     background: #181a1e;
@@ -344,75 +337,81 @@ def render_kpi_bar(scans=0, nodr=0, referable=0, vtdr=0) -> str:
     """
 
 
-SIDEBAR_HTML = """
-<div style="padding: 4px 2px;">
-    <div style="font-size: 0.72rem; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px;">
-        HEALTHSPHERE AI • PREDICTRX
-    </div>
-    <div style="font-size: 1.25rem; font-weight: 700; color: #f9fafb; margin-bottom: 2px;">
-        RetinaRAG Workstation
-    </div>
-    <div style="font-size: 0.78rem; color: #9ca3af; margin-bottom: 1.25rem;">
-        AI Builders Congress — Competition 1
-    </div>
-
+LANDING_REFERENCE_HTML = """
+<div style="margin-top: 1.25rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0.85rem;">
     <!-- SYSTEM ARCHITECTURE -->
-    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 8px; padding: 12px; margin-bottom: 1rem;">
-        <div style="font-size: 0.72rem; color: #9ca3af; text-transform: uppercase; font-weight: 700; margin-bottom: 5px;">
-            SYSTEM ARCHITECTURE
+    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 10px; padding: 1rem 1.15rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem; border-bottom: 1px solid #23262d; padding-bottom: 0.45rem;">
+                <span style="font-size: 0.74rem; color: #38bdf8; text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">SYSTEM ARCHITECTURE</span>
+                <span class="xai-pill">Dual Vector RAG</span>
+            </div>
+            <div style="font-size: 0.92rem; font-weight: 700; color: #f9fafb; margin-bottom: 0.35rem;">
+                Hybrid CNN–CBAM + Dual RAG
+            </div>
+            <div style="font-size: 0.80rem; color: #9ca3af; line-height: 1.55;">
+                256-D retinal feature embeddings coupled with local Vector Database retrieval across 10 verified reference prototypes and 12 clinical guideline documents.
+            </div>
         </div>
-        <div style="font-size: 0.86rem; font-weight: 600; color: #f9fafb; margin-bottom: 4px;">
-            Hybrid CNN–CBAM + Dual RAG
-        </div>
-        <div style="font-size: 0.78rem; color: #9ca3af; line-height: 1.5;">
-            256-D retinal feature embeddings coupled with local Vector Database retrieval (10 reference prototypes &amp; 12 clinical guideline documents).
+        <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid #23262d; display:flex; gap:6px;">
+            <span class="xai-pill" style="font-size:0.68rem;">Cosine Exact Store</span>
+            <span class="xai-pill" style="font-size:0.68rem;">CBAM Attention</span>
         </div>
     </div>
 
     <!-- ICDR SEVERITY SCALE -->
-    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 8px; padding: 12px; margin-bottom: 1rem;">
-        <div style="font-size: 0.72rem; color: #9ca3af; text-transform: uppercase; font-weight: 700; margin-bottom: 8px;">
-            ICDR SEVERITY SCALE
+    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 10px; padding: 1rem 1.15rem;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem; border-bottom: 1px solid #23262d; padding-bottom: 0.45rem;">
+            <span style="font-size: 0.74rem; color: #f59e0b; text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">ICDR SEVERITY SCALE</span>
+            <span class="xai-pill">5-Stage Triage</span>
         </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:6px;">
-            <span style="color:#e5e7eb;">Grade 0 No DR</span>
-            <span style="color:#10b981; font-weight:600;">Routine</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:6px;">
-            <span style="color:#e5e7eb;">Grade 1 Mild NPDR</span>
-            <span style="color:#38bdf8; font-weight:600;">6–12 mo</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:6px;">
-            <span style="color:#e5e7eb;">Grade 2 Moderate NPDR</span>
-            <span style="color:#f59e0b; font-weight:600;">Referable</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.78rem; margin-bottom:6px;">
-            <span style="color:#e5e7eb;">Grade 3 Severe NPDR</span>
-            <span style="color:#f97316; font-weight:600;">Urgent VTDR</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.78rem;">
-            <span style="color:#e5e7eb;">Grade 4 Proliferative DR</span>
-            <span style="color:#ef4444; font-weight:600;">Immediate</span>
+        <div style="display:flex; flex-direction:column; gap:0.25rem; font-size:0.79rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 2px 0;">
+                <span style="color:#e5e7eb; font-weight:500;">Grade 0: No DR</span>
+                <span style="color:#10b981; font-weight:600; font-size:0.74rem; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.25); padding:1px 7px; border-radius:4px;">Routine</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 2px 0;">
+                <span style="color:#e5e7eb; font-weight:500;">Grade 1: Mild NPDR</span>
+                <span style="color:#38bdf8; font-weight:600; font-size:0.74rem; background:rgba(56,189,248,0.12); border:1px solid rgba(56,189,248,0.25); padding:1px 7px; border-radius:4px;">6–12 mo</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 2px 0;">
+                <span style="color:#e5e7eb; font-weight:500;">Grade 2: Moderate NPDR</span>
+                <span style="color:#f59e0b; font-weight:600; font-size:0.74rem; background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.25); padding:1px 7px; border-radius:4px;">Referable</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 2px 0;">
+                <span style="color:#e5e7eb; font-weight:500;">Grade 3: Severe NPDR</span>
+                <span style="color:#f97316; font-weight:600; font-size:0.74rem; background:rgba(249,115,22,0.12); border:1px solid rgba(249,115,22,0.25); padding:1px 7px; border-radius:4px;">Urgent VTDR</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding: 2px 0;">
+                <span style="color:#e5e7eb; font-weight:500;">Grade 4: Proliferative DR</span>
+                <span style="color:#ef4444; font-weight:600; font-size:0.74rem; background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.25); padding:1px 7px; border-radius:4px;">Immediate</span>
+            </div>
         </div>
     </div>
 
     <!-- DOCUMENTED SAFEGUARDS -->
-    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 8px; padding: 12px;">
-        <div style="font-size: 0.72rem; color: #9ca3af; text-transform: uppercase; font-weight: 700; margin-bottom: 6px;">
-            DOCUMENTED SAFEGUARDS
+    <div style="background: #181a1e; border: 1px solid #23262d; border-radius: 10px; padding: 1rem 1.15rem; display: flex; flex-direction: column; justify-content: space-between;">
+        <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.5rem; border-bottom: 1px solid #23262d; padding-bottom: 0.45rem;">
+                <span style="font-size: 0.74rem; color: #10b981; text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">DOCUMENTED SAFEGUARDS</span>
+                <span class="xai-pill" style="border-color:#10b981; color:#10b981;">Zero-PHI</span>
+            </div>
+            <div style="font-size: 0.79rem; color: #d1d5db; line-height: 1.65;">
+                <div style="margin-bottom:3px;">• <strong style="color:#f3f4f6;">Pre-Inference OOD Gate:</strong> Reject monochrome, low-contrast, or blurred scans.</div>
+                <div style="margin-bottom:3px;">• <strong style="color:#f3f4f6;">HITL Escalation:</strong> Flag low-confidence (&lt;70%) and VTDR (Grade ≥ 3) cases.</div>
+                <div style="margin-bottom:3px;">• <strong style="color:#f3f4f6;">Clinical Citations:</strong> Exact guideline attributions to [ICDR] &amp; [ADA].</div>
+                <div>• <strong style="color:#f3f4f6;">Local Execution:</strong> Zero-PHI processed entirely in-memory.</div>
+            </div>
         </div>
-        <div style="font-size: 0.78rem; color: #d1d5db; line-height: 1.6;">
-            • Pre-inference Fundus OOD &amp; blur check<br>
-            • Low-confidence (&lt;70%) HITL escalation<br>
-            • Inline clinical citations ([ICDR], [ADA])<br>
-            • Zero-PHI local in-memory execution
+        <div style="margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px solid #23262d; display:flex; gap:6px;">
+            <span class="xai-pill" style="font-size:0.68rem; color:#10b981; border-color:#10b981;">● HIPAA/GDPR Compatible</span>
         </div>
     </div>
 </div>
 """
 
 IDLE_WORKSTATION_HTML = """
-<div class="empty-workstation">
+<div class="empty-workstation" style="background:#181a1e; border:1px solid #23262d; border-radius:12px; padding:1.4rem 1.6rem;">
     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #23262d; padding-bottom:0.75rem; margin-bottom:1rem;">
         <div>
             <div style="font-size:0.74rem; color:#60a5fa; font-weight:700; text-transform:uppercase; letter-spacing:0.04em;">WORKSTATION IDLE • READY FOR INPUT</div>
@@ -420,17 +419,29 @@ IDLE_WORKSTATION_HTML = """
         </div>
         <span class="xai-pill" style="border-color:#10b981; color:#10b981;">● Engine Online</span>
     </div>
-    <p style="color:#9ca3af; font-size:0.86rem; line-height:1.6; margin:0 0 1.25rem 0;">
-        Upload a color retinal fundus photograph in <b>Panel 01</b> on the left, enter optional systemic risk metrics (HbA1c, blood pressure, duration) in <b>Panel 02</b>, and execute <b>Run Screening &amp; RAG</b> in <b>Panel 03</b>.
+    <p style="color:#9ca3af; font-size:0.86rem; line-height:1.6; margin:0 0 1.1rem 0;">
+        Upload a color retinal fundus photograph in <b>Panel 01</b> on the left, optionally enter systemic risk metrics in <b>Panel 02</b>, and execute <b>Run Screening &amp; RAG</b> in <b>Panel 03</b>.
     </p>
     <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:0.75rem;">
-        <div class="sub-card">
-            <div style="font-size:0.74rem; color:#60a5fa; font-weight:700;">01 • Input Safeguard</div>
-            <div style="font-size:0.84rem; font-weight:600; color:#f9fafb; margin-top:2px;">Retinal Fundus OOD &amp; Focus Gate</div>
+        <div class="sub-card" style="padding:0.75rem 0.9rem; margin-bottom:0;">
+            <div style="font-size:0.72rem; color:#60a5fa; font-weight:700;">01 • Input Safeguard</div>
+            <div style="font-size:0.83rem; font-weight:600; color:#f9fafb; margin-top:2px;">Retinal Fundus OOD &amp; Focus Gate</div>
+            <div style="font-size:0.75rem; color:#9ca3af; margin-top:3px;">Pre-inference contrast, focus &amp; color spectrum check.</div>
         </div>
-        <div class="sub-card">
-            <div style="font-size:0.74rem; color:#60a5fa; font-weight:700;">02 • Predictive ML</div>
-            <div style="font-size:0.84rem; font-weight:600; color:#f9fafb; margin-top:2px;">Hybrid CNN-CBAM + 256-D Embeddings</div>
+        <div class="sub-card" style="padding:0.75rem 0.9rem; margin-bottom:0;">
+            <div style="font-size:0.72rem; color:#60a5fa; font-weight:700;">02 • Predictive ML</div>
+            <div style="font-size:0.83rem; font-weight:600; color:#f9fafb; margin-top:2px;">Hybrid CNN-CBAM + 256-D Head</div>
+            <div style="font-size:0.75rem; color:#9ca3af; margin-top:3px;">APTOS 2019 grading with sequential CBAM attention.</div>
+        </div>
+        <div class="sub-card" style="padding:0.75rem 0.9rem; margin-bottom:0;">
+            <div style="font-size:0.72rem; color:#60a5fa; font-weight:700;">03 • Dual Vector DB</div>
+            <div style="font-size:0.83rem; font-weight:600; color:#f9fafb; margin-top:2px;">Visual &amp; Clinical Retrieval</div>
+            <div style="font-size:0.75rem; color:#9ca3af; margin-top:3px;">Cosine nearest-case match &amp; authoritative guideline citations.</div>
+        </div>
+        <div class="sub-card" style="padding:0.75rem 0.9rem; margin-bottom:0;">
+            <div style="font-size:0.72rem; color:#60a5fa; font-weight:700;">04 • Responsible AI</div>
+            <div style="font-size:0.83rem; font-weight:600; color:#f9fafb; margin-top:2px;">Safeguards &amp; Zero-PHI PDF</div>
+            <div style="font-size:0.75rem; color:#9ca3af; margin-top:3px;">VTDR escalation, CV risk scoring &amp; local report download.</div>
         </div>
     </div>
 </div>
@@ -445,6 +456,7 @@ def run_screening_pipeline(
     fundus_img,
     use_bg,
     backbone_label,
+    rag_mode,
     top_k_chunks,
     patient_name,
     patient_id,
@@ -583,6 +595,7 @@ def run_screening_pipeline(
 
     card_border = grade_info["color"]
     citations_badges = " ".join(f"<span class='xai-pill'>[{cid}]</span>" for cid in rag_result["citations"])
+    mode_badge = f"<span class='xai-pill' style='color:#38bdf8; border-color:rgba(56,189,248,0.4);'>{rag_mode}</span>"
 
     # 3. Severity & Grounded RAG Report Card HTML
     report_card_html = f"""
@@ -599,7 +612,7 @@ def run_screening_pipeline(
                 <div style="font-size:0.8rem; color:#93c5fd; margin-top:4px;">
                     Recommended Window: {grade_info['referral_window']}
                 </div>
-                <div style="margin-top:10px; display:flex; gap:4px; flex-wrap:wrap;">{citations_badges}</div>
+                <div style="margin-top:10px; display:flex; gap:4px; flex-wrap:wrap;">{mode_badge} {citations_badges}</div>
             </div>
             <div>
                 <div style="font-size:0.74rem; color:#9ca3af; text-transform:uppercase; font-weight:600;">Grounded RAG Clinical Synthesis</div>
@@ -707,7 +720,7 @@ def run_screening_pipeline(
         insights=rag_result["explanation_html"],
         original_image=image,
         xai_overlay=pdf_evidence_card,
-        xai_method_name="Dual Vector DB & Clinical RAG",
+        xai_method_name=rag_mode or "Dual Vector DB & Clinical RAG",
         grade_idx=grade_idx,
         eye_side=eye_side or "Right Eye (OD)",
         triage_level=grade_info["triage_level"],
@@ -796,10 +809,6 @@ def run_standalone_qa(question, grade_label, hba1c, diabetes_years, systolic_bp,
 
 # ----------------- BUILD GRADIO INTERFACE -----------------
 with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Screening & PredictRx", css=CUSTOM_CSS) as demo:
-    # 0. Left Dedicated Workstation Sidebar (Identical to Streamlit Sidebar)
-    with gr.Sidebar():
-        gr.HTML(SIDEBAR_HTML)
-
     # 1. Top Clinical Header
     gr.HTML(f"""
     <div class="dr-header-card">
@@ -845,20 +854,11 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
                             <span class="xai-pill">OOD Gate</span>
                         </div>
                         """)
-                        fundus_in = gr.Image(type="pil", label="Select a color retinal fundus photograph", height=230)
+                        fundus_in = gr.Image(type="pil", label="Select a color retinal fundus photograph", height=195)
                         use_bg_cb = gr.Checkbox(value=True, label="Apply Ben Graham Retinal Illumination Normalization")
 
-                    # Panel 02: Patient & Systemic Risk Profile
-                    with gr.Group():
-                        gr.HTML("""
-                        <div class="panel-header" style="margin-top:0.8rem;">
-                            <div>
-                                <span class="step-badge">02</span>
-                                <strong style="color:#f9fafb; margin-left:6px; font-size:0.92rem;">Patient &amp; Systemic Risk Profile</strong>
-                            </div>
-                            <span class="xai-pill">Optional</span>
-                        </div>
-                        """)
+                    # Panel 02: Patient & Systemic Risk Profile (Compact Collapsible Accordion)
+                    with gr.Accordion("02. Patient & Systemic Risk Profile (Optional)", open=False):
                         with gr.Row():
                             p_name_in = gr.Textbox(label="Patient Identifier / Name", placeholder="Anonymous")
                             p_id_in = gr.Textbox(label="Case Reference ID", placeholder="DR-2041")
@@ -879,7 +879,7 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
                     # Panel 03: Model & RAG Execution
                     with gr.Group():
                         gr.HTML("""
-                        <div class="panel-header" style="margin-top:0.8rem;">
+                        <div class="panel-header" style="margin-top:0.4rem;">
                             <div>
                                 <span class="step-badge">03</span>
                                 <strong style="color:#f9fafb; margin-left:6px; font-size:0.92rem;">Model &amp; RAG Execution</strong>
@@ -892,8 +892,18 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
                             value="EfficientNet-B0 (Hybrid CBAM)",
                             label="Hybrid CNN-CBAM Backbone",
                         )
-                        top_k_in = gr.Slider(2, 5, value=3, step=1, label="Top-K Clinical Guideline Chunks")
-                        gemini_key_in = gr.Textbox(label="Optional Gemini API Key (Blank = Local Grounded Synthesizer)", type="password")
+                        rag_mode_in = gr.Dropdown(
+                            choices=[
+                                "Dual Vector DB RAG (Case Similarity + Clinical Guidelines)",
+                                "Clinical Guideline & Medication Safeguard RAG",
+                                "Visual Case-Based Vector Retrieval (Top-3 Reference Cases)",
+                            ],
+                            value="Dual Vector DB RAG (Case Similarity + Clinical Guidelines)",
+                            label="RAG Retrieval Mode",
+                        )
+                        with gr.Accordion("Advanced Retrieval Parameters", open=False):
+                            top_k_in = gr.Slider(2, 5, value=3, step=1, label="Top-K Clinical Guideline Chunks")
+                            gemini_key_in = gr.Textbox(label="Optional Gemini API Key (Blank = Local Grounded Synthesizer)", type="password")
 
                         with gr.Row():
                             run_btn = gr.Button("Run Screening & RAG", variant="primary", scale=2)
@@ -946,7 +956,7 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
             run_btn.click(
                 fn=run_screening_pipeline,
                 inputs=[
-                    fundus_in, use_bg_cb, backbone_in, top_k_in,
+                    fundus_in, use_bg_cb, backbone_in, rag_mode_in, top_k_in,
                     p_name_in, p_id_in, p_age_in, p_gender_in, p_eye_in,
                     p_hba1c_in, p_years_in, p_sbp_in, p_symptoms_in, gemini_key_in,
                 ],
@@ -983,6 +993,9 @@ with gr.Blocks(title="RetinaRAG Clinical Workstation | Diabetic Retinopathy Scre
                     err_banner,
                 ],
             )
+
+            # Clinical Reference: Architecture, ICDR Severity Scale & Documented Safeguards
+            gr.HTML(LANDING_REFERENCE_HTML)
 
         # Tab 2: Vector DB Explorer & Follow-Up Q&A
         with gr.Tab("Vector DB Explorer & Knowledge Graph"):
