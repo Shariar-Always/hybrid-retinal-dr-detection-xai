@@ -311,60 +311,43 @@ def render_knowledge_graph_svg(grade: int, risk_profile: Dict) -> str:
     s1 = info["systemic_risks"][0][:42] + ("..." if len(info["systemic_risks"][0]) > 42 else "")
     t1 = info["referral_window"][:38]
     m1 = info["medication_safeguards"][0][:42] + ("..." if len(info["medication_safeguards"][0]) > 42 else "")
+    ref_label = "Referable DR" if info["referable_dr"] else "Non-Referable"
 
-    return f"""
-    <div style="background: #1c1e22; border: 1px solid #2d3037; border-radius: 10px; padding: 12px; overflow-x: auto;">
-        <svg viewBox="0 0 920 245" width="100%" height="245" xmlns="http://www.w3.org/2000/svg" style="font-family: 'DM Sans', 'Segoe UI', sans-serif;">
-            <defs>
-                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                    <path d="M 0 1 L 10 5 L 0 9 z" fill="#6b7280" />
-                </marker>
-            </defs>
-
-            <!-- Connecting Edges -->
-            <line x1="190" y1="122" x2="245" y2="70" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />
-            <line x1="190" y1="122" x2="245" y2="175" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />
-            <line x1="455" y1="70" x2="510" y2="70" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />
-            <line x1="455" y1="175" x2="510" y2="175" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />
-            <line x1="690" y1="70" x2="735" y2="112" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />
-            <line x1="690" y1="175" x2="735" y2="132" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />
-
-            <!-- Node 1: AI Prediction -->
-            <rect x="15" y="78" width="175" height="88" rx="8" fill="#23262c" stroke="{accent}" stroke-width="1.5" />
-            <text x="102" y="100" fill="#9ca1ac" font-size="9.5" font-weight="600" text-anchor="middle">Predictive ML Node</text>
-            <text x="102" y="124" fill="#f3f5f8" font-size="14" font-weight="700" text-anchor="middle">{info['name']}</text>
-            <text x="102" y="146" fill="{accent}" font-size="10.5" font-weight="600" text-anchor="middle">{info['grade_code']}</text>
-
-            <!-- Node 2A: Retinal Biomarkers -->
-            <rect x="250" y="25" width="205" height="88" rx="8" fill="#23262c" stroke="#3a3e48" stroke-width="1.2" />
-            <text x="352" y="46" fill="#cfd5e2" font-size="9.8" font-weight="600" text-anchor="middle">Retinal Biomarkers</text>
-            <text x="352" y="69" fill="#e5e8ee" font-size="9.2" text-anchor="middle">{b1}</text>
-            <text x="352" y="89" fill="#9ca1ac" font-size="9.2" text-anchor="middle">{b2}</text>
-
-            <!-- Node 2B: Systemic & CV Risk -->
-            <rect x="250" y="132" width="205" height="88" rx="8" fill="#23262c" stroke="#3a3e48" stroke-width="1.2" />
-            <text x="352" y="153" fill="{risk_color}" font-size="9.8" font-weight="600" text-anchor="middle">Systemic &amp; CV Risk</text>
-            <text x="352" y="176" fill="#f3f5f8" font-size="11.5" font-weight="600" text-anchor="middle">Risk Score: {risk_profile['risk_score']}/100</text>
-            <text x="352" y="196" fill="#9ca1ac" font-size="9.2" text-anchor="middle">{s1}</text>
-
-            <!-- Node 3A: Clinical Triage -->
-            <rect x="515" y="25" width="175" height="88" rx="8" fill="#23262c" stroke="#3a3e48" stroke-width="1.2" />
-            <text x="602" y="46" fill="#cfd5e2" font-size="9.8" font-weight="600" text-anchor="middle">Triage Pathway</text>
-            <text x="602" y="70" fill="#f3f5f8" font-size="10.5" font-weight="600" text-anchor="middle">{info['triage_priority']}</text>
-            <text x="602" y="90" fill="#9ca1ac" font-size="9" text-anchor="middle">{t1}</text>
-
-            <!-- Node 3B: Medication & Safeguards -->
-            <rect x="515" y="132" width="175" height="88" rx="8" fill="#23262c" stroke="#3a3e48" stroke-width="1.2" />
-            <text x="602" y="153" fill="#34d399" font-size="9.8" font-weight="600" text-anchor="middle">Clinical Safeguard</text>
-            <text x="602" y="176" fill="#e5e8ee" font-size="9" text-anchor="middle">{m1}</text>
-            <text x="602" y="196" fill="#9ca1ac" font-size="8.8" text-anchor="middle">Specialist Review</text>
-
-            <!-- Node 4: Final Care Decision -->
-            <rect x="740" y="74" width="165" height="96" rx="8" fill="#23262c" stroke="#4b505d" stroke-width="1.5" />
-            <text x="822" y="98" fill="#cfd5e2" font-size="9.8" font-weight="600" text-anchor="middle">Clinical Outcome</text>
-            <text x="822" y="121" fill="#f3f5f8" font-size="11" font-weight="700" text-anchor="middle">{'Referable DR' if info['referable_dr'] else 'Non-Referable'}</text>
-            <text x="822" y="140" fill="#9ca1ac" font-size="9.2" text-anchor="middle">Zero-PHI Local PDF</text>
-            <text x="822" y="156" fill="#7c818d" font-size="8.8" text-anchor="middle">Ophthalmologist Sign-Off</text>
-        </svg>
-    </div>
-    """
+    return (
+        f'<div style="background: #1c1e22; border: 1px solid #2d3037; border-radius: 10px; padding: 12px; overflow-x: auto;">'
+        f'<svg viewBox="0 0 920 245" width="100%" height="245" xmlns="http://www.w3.org/2000/svg" style="font-family: \'DM Sans\', \'Segoe UI\', sans-serif;">'
+        f'<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">'
+        f'<path d="M 0 1 L 10 5 L 0 9 z" fill="#6b7280" /></marker></defs>'
+        f'<line x1="190" y1="122" x2="245" y2="70" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />'
+        f'<line x1="190" y1="122" x2="245" y2="175" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />'
+        f'<line x1="455" y1="70" x2="510" y2="70" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />'
+        f'<line x1="455" y1="175" x2="510" y2="175" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />'
+        f'<line x1="690" y1="70" x2="735" y2="112" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />'
+        f'<line x1="690" y1="175" x2="735" y2="132" stroke="#454a56" stroke-width="1.5" marker-end="url(#arrow)" />'
+        f'<rect x="15" y="78" width="175" height="88" rx="8" fill="#23262c" stroke="{accent}" stroke-width="1.5" />'
+        f'<text x="102" y="100" fill="#9ca1ac" font-size="9.5" font-weight="600" text-anchor="middle">Predictive ML Node</text>'
+        f'<text x="102" y="124" fill="#f3f5f8" font-size="14" font-weight="700" text-anchor="middle">{info["name"]}</text>'
+        f'<text x="102" y="146" fill="{accent}" font-size="10.5" font-weight="600" text-anchor="middle">{info["grade_code"]}</text>'
+        f'<rect x="250" y="25" width="205" height="88" rx="8" fill="#23262c" stroke="#3a3e48" stroke-width="1.2" />'
+        f'<text x="352" y="46" fill="#cfd5e2" font-size="9.8" font-weight="600" text-anchor="middle">Retinal Biomarkers</text>'
+        f'<text x="352" y="69" fill="#e5e8ee" font-size="9.2" text-anchor="middle">{b1}</text>'
+        f'<text x="352" y="89" fill="#9ca1ac" font-size="9.2" text-anchor="middle">{b2}</text>'
+        f'<rect x="250" y="132" width="205" height="88" rx="8" fill="#23262c" stroke="#3a3e48" stroke-width="1.2" />'
+        f'<text x="352" y="153" fill="{risk_color}" font-size="9.8" font-weight="600" text-anchor="middle">Systemic &amp; CV Risk</text>'
+        f'<text x="352" y="176" fill="#f3f5f8" font-size="11.5" font-weight="600" text-anchor="middle">Risk Score: {risk_profile["risk_score"]}/100</text>'
+        f'<text x="352" y="196" fill="#9ca1ac" font-size="9.2" text-anchor="middle">{s1}</text>'
+        f'<rect x="515" y="25" width="175" height="88" rx="8" fill="#23262c" stroke="#3a3e48" stroke-width="1.2" />'
+        f'<text x="602" y="46" fill="#cfd5e2" font-size="9.8" font-weight="600" text-anchor="middle">Triage Pathway</text>'
+        f'<text x="602" y="70" fill="#f3f5f8" font-size="10.5" font-weight="600" text-anchor="middle">{info["triage_priority"]}</text>'
+        f'<text x="602" y="90" fill="#9ca1ac" font-size="9" text-anchor="middle">{t1}</text>'
+        f'<rect x="515" y="132" width="175" height="88" rx="8" fill="#23262c" stroke="#3a3e48" stroke-width="1.2" />'
+        f'<text x="602" y="153" fill="#34d399" font-size="9.8" font-weight="600" text-anchor="middle">Clinical Safeguard</text>'
+        f'<text x="602" y="176" fill="#e5e8ee" font-size="9.2" text-anchor="middle">{m1}</text>'
+        f'<text x="602" y="196" fill="#9ca1ac" font-size="8.8" text-anchor="middle">Specialist Review</text>'
+        f'<rect x="740" y="74" width="165" height="96" rx="8" fill="#23262c" stroke="#4b505d" stroke-width="1.5" />'
+        f'<text x="822" y="98" fill="#cfd5e2" font-size="9.8" font-weight="600" text-anchor="middle">Clinical Outcome</text>'
+        f'<text x="822" y="121" fill="#f3f5f8" font-size="11" font-weight="700" text-anchor="middle">{ref_label}</text>'
+        f'<text x="822" y="140" fill="#9ca1ac" font-size="9.2" text-anchor="middle">Zero-PHI Local PDF</text>'
+        f'<text x="822" y="156" fill="#7c818d" font-size="8.8" text-anchor="middle">Ophthalmologist Sign-Off</text>'
+        f'</svg></div>'
+    )

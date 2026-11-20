@@ -5,8 +5,19 @@
    Natural sans-serif typography (DM Sans), matte brushed silver surfaces
    ========================================================================== */
 
-html, body, [class*="css"], * {
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+html, body, [class*="css"], p, div, h1, h2, h3, h4, h5, h6, input, button, select, textarea, label {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Explicitly protect Streamlit icon fonts from font-family override */
+[class*="material-symbols"], 
+[class*="material-icons"], 
+[data-testid*="Icon"], 
+[data-testid*="stIcon"],
+[data-testid="stExpanderToggleIcon"],
+[data-testid="stExpanderToggleIcon"] span,
+summary span[data-testid*="Icon"] {
+    font-family: 'Material Symbols Rounded', 'Material Symbols Outlined', 'Material Icons' !important;
 }
 
 .stApp {
@@ -19,6 +30,36 @@ html, body, [class*="css"], * {
     padding-bottom: 2.5rem !important;
     max-width: 1300px !important;
     margin: 0 auto !important;
+}
+
+/* Modern Dark Silver / Graphite Expanders */
+[data-testid="stExpander"] {
+    background-color: #1c1e22 !important;
+    border: 1px solid #2d3037 !important;
+    border-radius: 9px !important;
+    margin-bottom: 0.85rem !important;
+    overflow: hidden;
+}
+
+[data-testid="stExpander"] summary {
+    color: #e5e8ee !important;
+    font-size: 0.88rem !important;
+    font-weight: 500 !important;
+    padding: 0.65rem 0.95rem !important;
+    background-color: #1f2126 !important;
+    border-radius: 8px !important;
+    transition: background-color 0.15s ease;
+}
+
+[data-testid="stExpander"] summary:hover {
+    color: #ffffff !important;
+    background-color: #262930 !important;
+}
+
+[data-testid="stExpander"] [data-testid="stExpanderDetails"] {
+    border-top: 1px solid #2d3037 !important;
+    padding: 0.95rem !important;
+    background-color: #191a1e !important;
 }
 
 /* Subtle Scrollbar */

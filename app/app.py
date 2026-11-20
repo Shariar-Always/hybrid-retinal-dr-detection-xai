@@ -369,7 +369,7 @@ def render_rag_and_knowledge_graph_tab():
 
     st.markdown("<div style='font-size:0.86rem; font-weight:600; color:#d1d5db; margin: 1.25rem 0 0.5rem 0;'>PredictRx Clinical Retinal-Systemic Knowledge Graph</div>", unsafe_allow_html=True)
     sim_risk = compute_systemic_risk_profile(preview_grade, sim_hba1c, sim_years, sim_sbp)
-    st.markdown(render_knowledge_graph_svg(preview_grade, sim_risk), unsafe_allow_html=True)
+    st.markdown(clean_html(render_knowledge_graph_svg(preview_grade, sim_risk)), unsafe_allow_html=True)
 
 
 # ----------------- TAB 3: PERFORMANCE & BENCHMARK HUB -----------------
@@ -684,13 +684,13 @@ with tab_diag:
             with p2:
                 patient_id = st.text_input("Case Reference ID", placeholder="DR-2041", disabled=(uploaded_file is None or not is_valid))
                 patient_gender = st.selectbox("Sex", ["Male", "Female", "Other"], disabled=(uploaded_file is None or not is_valid))
-                hba1c_val = st.number_input("HbA1c (%)", min_value=0.0, max_value=18.0, value=0.0, step=0.1, disabled=(uploaded_file is None or not is_valid))
+                hba1c_val = st.number_input("HbA1c (%)", min_value=0.0, max_value=18.0, value=7.5, step=0.1, help="Screening default: 7.5% (normal < 5.7%, high risk >= 8.5%)", disabled=(uploaded_file is None or not is_valid))
 
             r1, r2 = st.columns(2)
             with r1:
-                diabetes_years = st.number_input("Diabetes Duration (Yrs)", min_value=0, max_value=60, value=0, step=1, disabled=(uploaded_file is None or not is_valid))
+                diabetes_years = st.number_input("Diabetes Duration (Yrs)", min_value=0, max_value=60, value=5, step=1, help="Duration of diagnosed diabetes in years", disabled=(uploaded_file is None or not is_valid))
             with r2:
-                systolic_bp = st.number_input("Systolic BP (mmHg)", min_value=0, max_value=240, value=0, step=5, disabled=(uploaded_file is None or not is_valid))
+                systolic_bp = st.number_input("Systolic BP (mmHg)", min_value=70, max_value=240, value=130, step=5, help="Systolic blood pressure in mmHg (normal < 120, stage 2 >= 140)", disabled=(uploaded_file is None or not is_valid))
 
             patient_symptoms = st.text_area(
                 "Clinical Notes & Current Medications (Indexed for RAG Query)",
@@ -1068,7 +1068,7 @@ with tab_diag:
 
             # 6. Clinical Knowledge Graph Reasoning Pathway
             st.markdown("<div style='font-size:0.84rem; font-weight:600; color:#d1d5db; margin: 1rem 0 0.45rem 0;'>PredictRx Retinal-Systemic Knowledge Graph</div>", unsafe_allow_html=True)
-            st.markdown(render_knowledge_graph_svg(grade_idx, risk_profile), unsafe_allow_html=True)
+            st.markdown(clean_html(render_knowledge_graph_svg(grade_idx, risk_profile)), unsafe_allow_html=True)
 
             # 7. In-Memory Clinical PDF Report Download
             pdf_data = generate_pdf_report(
