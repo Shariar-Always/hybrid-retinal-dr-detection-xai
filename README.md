@@ -222,3 +222,4 @@ python -m unittest discover -s tests -v
 
 ### License
 Licensed under the **MIT License** — see [`LICENSE`](LICENSE).
+
